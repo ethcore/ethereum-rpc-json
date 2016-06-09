@@ -1031,6 +1031,30 @@
       "outputFormatter": null
     },
     {
+      "name": "ethcore_defaultExtraData",
+      "desc": "Returns the default extra data",
+      "params": [],
+      "returns": "`DATA` - Extra data",
+      "inputFormatters": [],
+      "outputFormatter": null
+    },
+    {
+      "name": "ethcore_devLogs",
+      "desc": "?",
+      "params": [],
+      "returns": "`ARRAY` - Dev logs",
+      "inputFormatters": [],
+      "outputFormatter": null
+    },
+    {
+      "name": "ethcore_devLogsLevels",
+      "desc": "?",
+      "params": [],
+      "returns": "?",
+      "inputFormatters": [],
+      "outputFormatter": null
+    },
+    {
       "name": "trace_filter",
       "desc": "Returns traces matching given filter",
       "params": [

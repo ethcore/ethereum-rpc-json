@@ -178,7 +178,26 @@ module.exports = [
     desc: 'Returns node name (identity)',
     params: [],
     returns: '`DATA` - Node name'
-  }, {
+  },
+  {
+    name: 'ethcore_defaultExtraData',
+    desc: 'Returns the default extra data',
+    params: [],
+    returns: '`DATA` - Extra data'
+  },
+  {
+    name: 'ethcore_devLogs',
+    desc: '?',
+    params: [],
+    returns: '`ARRAY` - Dev logs'
+  },
+  {
+    name: 'ethcore_devLogsLevels',
+    desc: '?',
+    params: [],
+    returns: '?'
+  },
+  {
     name: 'trace_filter',
     desc: 'Returns traces matching given filter',
     params: ['`OBJECT` - The filter object'],
