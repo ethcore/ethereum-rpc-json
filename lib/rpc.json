@@ -871,6 +871,14 @@
       "outputFormatter": null
     },
     {
+      "name": "personal_listAccounts",
+      "desc": "Returns a list of addresses owned by client.",
+      "params": [],
+      "returns": "`Array of DATA`, 20 Bytes - addresses owned by the client.",
+      "inputFormatters": [],
+      "outputFormatter": null
+    },
+    {
       "name": "personal_newAccount",
       "desc": "Creates new account",
       "params": [
@@ -880,6 +888,14 @@
       "inputFormatters": [
         null
       ],
+      "outputFormatter": null
+    },
+    {
+      "name": "personal_signerEnabled",
+      "desc": "Returns true/false if signer is enabled/disabled.",
+      "params": [],
+      "returns": "`Boolean` - whether the call was successful",
+      "inputFormatters": [],
       "outputFormatter": null
     },
     {
