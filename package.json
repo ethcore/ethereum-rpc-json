@@ -1,6 +1,6 @@
 {
   "name": "ethereum-rpc-json",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "JSON file of all ethereum's rpc methods supported by parity",
   "main": "index.js",
   "jsnext:main": "lib/index.js",

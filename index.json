@@ -1007,6 +1007,14 @@
       "outputFormatter": null
     },
     {
+      "name": "personal_accountsInfo",
+      "desc": "returns a map of accounts as an object",
+      "params": [],
+      "returns": "Array - Account metadata",
+      "inputFormatters": [],
+      "outputFormatter": null
+    },
+    {
       "name": "personal_listAccounts",
       "desc": "Returns a list of addresses owned by client.",
       "params": [],
@@ -1022,6 +1030,34 @@
       ],
       "returns": "Address - The created address",
       "inputFormatters": [
+        null
+      ],
+      "outputFormatter": null
+    },
+    {
+      "name": "personal_setAccountMeta",
+      "desc": "Sets metadata for the account",
+      "params": [
+        "Address - Address",
+        "String - Metadata (JSON encoded)"
+      ],
+      "returns": "Object - Returns null in all cases",
+      "inputFormatters": [
+        null,
+        null
+      ],
+      "outputFormatter": null
+    },
+    {
+      "name": "personal_setAccountName",
+      "desc": "Sets a name for the account",
+      "params": [
+        "Address - Address",
+        "String - Name"
+      ],
+      "returns": "Object - Returns null in all cases",
+      "inputFormatters": [
+        null,
         null
       ],
       "outputFormatter": null

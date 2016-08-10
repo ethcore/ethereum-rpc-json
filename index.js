@@ -1254,6 +1254,29 @@ var net = {
 };
 
 var personal = {
+  accountsInfo: {
+    desc: 'returns a map of accounts as an object',
+    params: [],
+    returns: {
+      type: Array,
+      desc: 'Account metadata',
+      details: {
+        name: {
+          type: String,
+          desc: 'Account name'
+        },
+        meta: {
+          type: String,
+          desc: 'Encoded JSON string the defines additional account metadata'
+        },
+        uuid: {
+          type: String,
+          desc: 'The account UUID, or null if not available/unknown/not applicable.'
+        }
+      }
+    }
+  },
+
   listAccounts: {
     desc: 'Returns a list of addresses owned by client.',
     params: [],
@@ -1272,6 +1295,36 @@ var personal = {
     returns: {
       type: Address,
       desc: 'The created address'
+    }
+  },
+
+  setAccountName: {
+    desc: 'Sets a name for the account',
+    params: [{
+      type: Address,
+      desc: 'Address'
+    }, {
+      type: String,
+      desc: 'Name'
+    }],
+    returns: {
+      type: Object,
+      desc: 'Returns null in all cases'
+    }
+  },
+
+  setAccountMeta: {
+    desc: 'Sets metadata for the account',
+    params: [{
+      type: Address,
+      desc: 'Address'
+    }, {
+      type: String,
+      desc: 'Metadata (JSON encoded)'
+    }],
+    returns: {
+      type: Object,
+      desc: 'Returns null in all cases'
     }
   },
 

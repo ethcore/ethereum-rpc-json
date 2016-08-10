@@ -1206,11 +1206,26 @@ none
 
 ## personal
 
+- [personal_accountsInfo](#personal_accountsInfo)
 - [personal_listAccounts](#personal_listAccounts)
 - [personal_newAccount](#personal_newAccount)
+- [personal_setAccountMeta](#personal_setAccountMeta)
+- [personal_setAccountName](#personal_setAccountName)
 - [personal_signAndSendTransaction](#personal_signAndSendTransaction)
 - [personal_signerEnabled](#personal_signerEnabled)
 - [personal_unlockAccount](#personal_unlockAccount)
+
+### personal_accountsInfo
+
+returns a map of accounts as an object
+
+#### parameters
+
+none
+
+#### returns
+
+- `Array` - Account metadata
 
 ### personal_listAccounts
 
@@ -1235,6 +1250,32 @@ Creates new account
 #### returns
 
 - `Address` - The created address
+
+### personal_setAccountMeta
+
+Sets metadata for the account
+
+#### parameters
+
+- `Address` - Address
+- `String` - Metadata (JSON encoded)
+
+#### returns
+
+- `Object` - Returns null in all cases
+
+### personal_setAccountName
+
+Sets a name for the account
+
+#### parameters
+
+- `Address` - Address
+- `String` - Name
+
+#### returns
+
+- `Object` - Returns null in all cases
 
 ### personal_signAndSendTransaction
 
