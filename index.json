@@ -780,19 +780,19 @@
     },
     {
       "name": "ethcore_acceptNonReservedPeers",
-      "desc": "?",
+      "desc": "Accept non-reserved peers (default behavior).",
       "params": [],
-      "returns": "Boolean - ?",
+      "returns": "Boolean - Success.",
       "inputFormatters": [],
       "outputFormatter": null
     },
     {
       "name": "ethcore_addReservedPeer",
-      "desc": "?",
+      "desc": "Add reserved peer.",
       "params": [
         "String - Enode"
       ],
-      "returns": "Boolean - ?",
+      "returns": "Boolean - True if added successfully.",
       "inputFormatters": [
         null
       ],
@@ -824,9 +824,9 @@
     },
     {
       "name": "ethcore_dropNonReservedPeers",
-      "desc": "?",
+      "desc": "Drop all non-reserved peers.",
       "params": [],
-      "returns": "Boolean - ?",
+      "returns": "Boolean - Dropped successfully.",
       "inputFormatters": [],
       "outputFormatter": null
     },
@@ -845,6 +845,42 @@
       "returns": "Quantity - Gas Floor Target",
       "inputFormatters": [],
       "outputFormatter": "outputBigNumberFormatter"
+    },
+    {
+      "name": "ethcore_gasPriceStatistics",
+      "desc": "Returns distribution of gas price in latest blocks.",
+      "params": [],
+      "returns": "Array - Octile distribution of recent transaction gas prices; first element is the minimum, middle is the median and last is the maximum.",
+      "inputFormatters": [],
+      "outputFormatter": null
+    },
+    {
+      "name": "ethcore_generateSecretPhrase",
+      "desc": "Returns a cryptographically random phrase sufficient for securely seeding a secret key.",
+      "params": [],
+      "returns": "String - Secret phrase.",
+      "inputFormatters": [],
+      "outputFormatter": null
+    },
+    {
+      "name": "ethcore_listAccounts",
+      "desc": "Returns all addresses if Fat DB is enabled (`--fat-db`), or null if not.",
+      "params": [],
+      "returns": "Array - Array of all addresses.",
+      "inputFormatters": [],
+      "outputFormatter": null
+    },
+    {
+      "name": "ethcore_listStorageKeys",
+      "desc": "Returns all storage keys of the given address if Fat DB is enabled (`--fat-db`), or null if not.",
+      "params": [
+        "Address - Address which keys should be returned."
+      ],
+      "returns": "Array - Array of all keys.",
+      "inputFormatters": [
+        null
+      ],
+      "outputFormatter": null
     },
     {
       "name": "ethcore_minGasPrice",
@@ -871,6 +907,14 @@
       "outputFormatter": null
     },
     {
+      "name": "ethcore_netPeers",
+      "desc": "Returns peers details.",
+      "params": [],
+      "returns": "Object - Information about connected peers.",
+      "inputFormatters": [],
+      "outputFormatter": null
+    },
+    {
       "name": "ethcore_netPort",
       "desc": "Returns network port the node is listening on.",
       "params": [],
@@ -880,19 +924,39 @@
     },
     {
       "name": "ethcore_nodeName",
-      "desc": "Returns node name (identity)",
+      "desc": "Returns node name (identity).",
       "params": [],
       "returns": "String - Node name",
       "inputFormatters": [],
       "outputFormatter": null
     },
     {
-      "name": "ethcore_removeReservedPeer",
-      "desc": "?",
+      "name": "ethcore_phraseToAddress",
+      "desc": "Returns whatever address would be derived from the given phrase if it were to seed a brainwallet.",
       "params": [
-        "String - Encode"
+        "String - Brain-wallet phrase."
       ],
-      "returns": "Boolean - ?",
+      "returns": "Address - Corresponding address.",
+      "inputFormatters": [
+        null
+      ],
+      "outputFormatter": null
+    },
+    {
+      "name": "ethcore_registryAddress",
+      "desc": "Returns the value of the registrar for this network.",
+      "params": [],
+      "returns": "Address - Address of the registry or null if none.",
+      "inputFormatters": [],
+      "outputFormatter": null
+    },
+    {
+      "name": "ethcore_removeReservedPeer",
+      "desc": "Remove a reserved peer.",
+      "params": [
+        "String - Enode"
+      ],
+      "returns": "Boolean - Successfully removed.",
       "inputFormatters": [
         null
       ],
@@ -912,7 +976,7 @@
       "params": [
         "Address - 20 Bytes - Address"
       ],
-      "returns": "Boolean - whether the call was successful",
+      "returns": "Boolean - Successfully changed the author.",
       "inputFormatters": [
         "inputAddressFormatter"
       ],
@@ -920,11 +984,11 @@
     },
     {
       "name": "ethcore_setExtraData",
-      "desc": "Changes extra data for newly mined blocks",
+      "desc": "Changes extra data for newly mined blocks.",
       "params": [
         "Data - Extra Data"
       ],
-      "returns": "Boolean - whether the call was successful",
+      "returns": "Boolean - Successfully changed extra data.",
       "inputFormatters": [
         "utils.toHex"
       ],
@@ -967,6 +1031,22 @@
       "outputFormatter": null
     },
     {
+      "name": "ethcore_startNetwork",
+      "desc": "Start the network.",
+      "params": [],
+      "returns": "Boolean - Started successfully.",
+      "inputFormatters": [],
+      "outputFormatter": null
+    },
+    {
+      "name": "ethcore_stopNetwork",
+      "desc": "Stop the network.",
+      "params": [],
+      "returns": "Boolean - Stopped successfully.",
+      "inputFormatters": [],
+      "outputFormatter": null
+    },
+    {
       "name": "ethcore_transactionsLimit",
       "desc": "Changes limit for transactions in queue.",
       "params": [],
@@ -976,9 +1056,9 @@
     },
     {
       "name": "ethcore_unsignedTransactionsCount",
-      "desc": "Returns number of unsigned transactions when running with Trusted Signer. Error otherwise",
+      "desc": "Returns number of unsigned transactions when running with Trusted Signer. Error otherwise.",
       "params": [],
-      "returns": "Quantity - Number of unsigned transactions",
+      "returns": "Quantity - Number of unsigned transactions.",
       "inputFormatters": [],
       "outputFormatter": null
     },

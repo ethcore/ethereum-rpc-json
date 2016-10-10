@@ -881,11 +881,18 @@ Additonally Filters timeout when they aren't requested with [eth_getFilterChange
 - [ethcore_dropNonReservedPeers](#ethcore_dropNonReservedPeers)
 - [ethcore_extraData](#ethcore_extraData)
 - [ethcore_gasFloorTarget](#ethcore_gasFloorTarget)
+- [ethcore_gasPriceStatistics](#ethcore_gasPriceStatistics)
+- [ethcore_generateSecretPhrase](#ethcore_generateSecretPhrase)
+- [ethcore_listAccounts](#ethcore_listAccounts)
+- [ethcore_listStorageKeys](#ethcore_listStorageKeys)
 - [ethcore_minGasPrice](#ethcore_minGasPrice)
 - [ethcore_netChain](#ethcore_netChain)
 - [ethcore_netMaxPeers](#ethcore_netMaxPeers)
+- [ethcore_netPeers](#ethcore_netPeers)
 - [ethcore_netPort](#ethcore_netPort)
 - [ethcore_nodeName](#ethcore_nodeName)
+- [ethcore_phraseToAddress](#ethcore_phraseToAddress)
+- [ethcore_registryAddress](#ethcore_registryAddress)
 - [ethcore_removeReservedPeer](#ethcore_removeReservedPeer)
 - [ethcore_rpcSettings](#ethcore_rpcSettings)
 - [ethcore_setAuthor](#ethcore_setAuthor)
@@ -893,12 +900,14 @@ Additonally Filters timeout when they aren't requested with [eth_getFilterChange
 - [ethcore_setGasFloorTarget](#ethcore_setGasFloorTarget)
 - [ethcore_setMinGasPrice](#ethcore_setMinGasPrice)
 - [ethcore_setTransactionsLimit](#ethcore_setTransactionsLimit)
+- [ethcore_startNetwork](#ethcore_startNetwork)
+- [ethcore_stopNetwork](#ethcore_stopNetwork)
 - [ethcore_transactionsLimit](#ethcore_transactionsLimit)
 - [ethcore_unsignedTransactionsCount](#ethcore_unsignedTransactionsCount)
 
 ### ethcore_acceptNonReservedPeers
 
-?
+Accept non-reserved peers (default behavior).
 
 #### parameters
 
@@ -906,11 +915,11 @@ none
 
 #### returns
 
-- `Boolean` - ?
+- `Boolean` - Success.
 
 ### ethcore_addReservedPeer
 
-?
+Add reserved peer.
 
 #### parameters
 
@@ -918,7 +927,7 @@ none
 
 #### returns
 
-- `Boolean` - ?
+- `Boolean` - True if added successfully.
 
 ### ethcore_defaultExtraData
 
@@ -958,7 +967,7 @@ none
 
 ### ethcore_dropNonReservedPeers
 
-?
+Drop all non-reserved peers.
 
 #### parameters
 
@@ -966,7 +975,7 @@ none
 
 #### returns
 
-- `Boolean` - ?
+- `Boolean` - Dropped successfully.
 
 ### ethcore_extraData
 
@@ -991,6 +1000,54 @@ none
 #### returns
 
 - `Quantity` - Gas Floor Target
+
+### ethcore_gasPriceStatistics
+
+Returns distribution of gas price in latest blocks.
+
+#### parameters
+
+none
+
+#### returns
+
+- `Array` - Octile distribution of recent transaction gas prices; first element is the minimum, middle is the median and last is the maximum.
+
+### ethcore_generateSecretPhrase
+
+Returns a cryptographically random phrase sufficient for securely seeding a secret key.
+
+#### parameters
+
+none
+
+#### returns
+
+- `String` - Secret phrase.
+
+### ethcore_listAccounts
+
+Returns all addresses if Fat DB is enabled (`--fat-db`), or null if not.
+
+#### parameters
+
+none
+
+#### returns
+
+- `Array` - Array of all addresses.
+
+### ethcore_listStorageKeys
+
+Returns all storage keys of the given address if Fat DB is enabled (`--fat-db`), or null if not.
+
+#### parameters
+
+- `Address` - Address which keys should be returned.
+
+#### returns
+
+- `Array` - Array of all keys.
 
 ### ethcore_minGasPrice
 
@@ -1028,6 +1085,18 @@ none
 
 - `Quantity` - Maximal number of peers
 
+### ethcore_netPeers
+
+Returns peers details.
+
+#### parameters
+
+none
+
+#### returns
+
+- `Object` - Information about connected peers.
+
 ### ethcore_netPort
 
 Returns network port the node is listening on.
@@ -1042,7 +1111,7 @@ none
 
 ### ethcore_nodeName
 
-Returns node name (identity)
+Returns node name (identity).
 
 #### parameters
 
@@ -1052,17 +1121,41 @@ none
 
 - `String` - Node name
 
-### ethcore_removeReservedPeer
+### ethcore_phraseToAddress
 
-?
+Returns whatever address would be derived from the given phrase if it were to seed a brainwallet.
 
 #### parameters
 
-- `String` - Encode
+- `String` - Brain-wallet phrase.
 
 #### returns
 
-- `Boolean` - ?
+- `Address` - Corresponding address.
+
+### ethcore_registryAddress
+
+Returns the value of the registrar for this network.
+
+#### parameters
+
+none
+
+#### returns
+
+- `Address` - Address of the registry or null if none.
+
+### ethcore_removeReservedPeer
+
+Remove a reserved peer.
+
+#### parameters
+
+- `String` - Enode
+
+#### returns
+
+- `Boolean` - Successfully removed.
 
 ### ethcore_rpcSettings
 
@@ -1086,11 +1179,11 @@ Changes author (coinbase) for mined blocks.
 
 #### returns
 
-- `Boolean` - whether the call was successful
+- `Boolean` - Successfully changed the author.
 
 ### ethcore_setExtraData
 
-Changes extra data for newly mined blocks
+Changes extra data for newly mined blocks.
 
 #### parameters
 
@@ -1098,7 +1191,7 @@ Changes extra data for newly mined blocks
 
 #### returns
 
-- `Boolean` - whether the call was successful
+- `Boolean` - Successfully changed extra data.
 
 ### ethcore_setGasFloorTarget
 
@@ -1136,6 +1229,30 @@ Changes limit for transactions in queue.
 
 - `Boolean` - whether the call was successful
 
+### ethcore_startNetwork
+
+Start the network.
+
+#### parameters
+
+none
+
+#### returns
+
+- `Boolean` - Started successfully.
+
+### ethcore_stopNetwork
+
+Stop the network.
+
+#### parameters
+
+none
+
+#### returns
+
+- `Boolean` - Stopped successfully.
+
 ### ethcore_transactionsLimit
 
 Changes limit for transactions in queue.
@@ -1150,7 +1267,7 @@ none
 
 ### ethcore_unsignedTransactionsCount
 
-Returns number of unsigned transactions when running with Trusted Signer. Error otherwise
+Returns number of unsigned transactions when running with Trusted Signer. Error otherwise.
 
 #### parameters
 
@@ -1158,7 +1275,7 @@ none
 
 #### returns
 
-- `Quantity` - Number of unsigned transactions
+- `Quantity` - Number of unsigned transactions.
 
 
 ## net

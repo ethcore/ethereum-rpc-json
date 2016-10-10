@@ -1,5 +1,118 @@
 'use strict';
 
+var asyncGenerator = function () {
+  function AwaitValue(value) {
+    this.value = value;
+  }
+
+  function AsyncGenerator(gen) {
+    var front, back;
+
+    function send(key, arg) {
+      return new Promise(function (resolve, reject) {
+        var request = {
+          key: key,
+          arg: arg,
+          resolve: resolve,
+          reject: reject,
+          next: null
+        };
+
+        if (back) {
+          back = back.next = request;
+        } else {
+          front = back = request;
+          resume(key, arg);
+        }
+      });
+    }
+
+    function resume(key, arg) {
+      try {
+        var result = gen[key](arg);
+        var value = result.value;
+
+        if (value instanceof AwaitValue) {
+          Promise.resolve(value.value).then(function (arg) {
+            resume("next", arg);
+          }, function (arg) {
+            resume("throw", arg);
+          });
+        } else {
+          settle(result.done ? "return" : "normal", result.value);
+        }
+      } catch (err) {
+        settle("throw", err);
+      }
+    }
+
+    function settle(type, value) {
+      switch (type) {
+        case "return":
+          front.resolve({
+            value: value,
+            done: true
+          });
+          break;
+
+        case "throw":
+          front.reject(value);
+          break;
+
+        default:
+          front.resolve({
+            value: value,
+            done: false
+          });
+          break;
+      }
+
+      front = front.next;
+
+      if (front) {
+        resume(front.key, front.arg);
+      } else {
+        back = null;
+      }
+    }
+
+    this._invoke = send;
+
+    if (typeof gen.return !== "function") {
+      this.return = undefined;
+    }
+  }
+
+  if (typeof Symbol === "function" && Symbol.asyncIterator) {
+    AsyncGenerator.prototype[Symbol.asyncIterator] = function () {
+      return this;
+    };
+  }
+
+  AsyncGenerator.prototype.next = function (arg) {
+    return this._invoke("next", arg);
+  };
+
+  AsyncGenerator.prototype.throw = function (arg) {
+    return this._invoke("throw", arg);
+  };
+
+  AsyncGenerator.prototype.return = function (arg) {
+    return this._invoke("return", arg);
+  };
+
+  return {
+    wrap: function (fn) {
+      return function () {
+        return new AsyncGenerator(fn.apply(this, arguments));
+      };
+    },
+    await: function (value) {
+      return new AwaitValue(value);
+    }
+  };
+}();
+
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
@@ -997,23 +1110,23 @@ var eth = {
 
 var ethcore = {
   acceptNonReservedPeers: {
-    desc: '?',
+    desc: 'Accept non-reserved peers (default behavior).',
     params: [],
     returns: {
       type: Boolean,
-      desc: '?'
+      desc: 'Success.'
     }
   },
 
   addReservedPeer: {
-    desc: '?',
+    desc: 'Add reserved peer.',
     params: [{
       type: String,
       desc: 'Enode'
     }],
     returns: {
       type: Boolean,
-      desc: '?'
+      desc: 'True if added successfully.'
     }
   },
 
@@ -1045,11 +1158,11 @@ var ethcore = {
   },
 
   dropNonReservedPeers: {
-    desc: '?',
+    desc: 'Drop all non-reserved peers.',
     params: [],
     returns: {
       type: Boolean,
-      desc: '?'
+      desc: 'Dropped successfully.'
     }
   },
 
@@ -1110,7 +1223,7 @@ var ethcore = {
   },
 
   nodeName: {
-    desc: 'Returns node name (identity)',
+    desc: 'Returns node name (identity).',
     params: [],
     returns: {
       type: String,
@@ -1119,14 +1232,14 @@ var ethcore = {
   },
 
   removeReservedPeer: {
-    desc: '?',
+    desc: 'Remove a reserved peer.',
     params: [{
       type: String,
-      desc: 'Encode'
+      desc: 'Enode'
     }],
     returns: {
       type: Boolean,
-      desc: '?'
+      desc: 'Successfully removed.'
     }
   },
 
@@ -1148,12 +1261,12 @@ var ethcore = {
     }],
     returns: {
       type: Boolean,
-      desc: 'whether the call was successful'
+      desc: 'Successfully changed the author.'
     }
   },
 
   setExtraData: {
-    desc: 'Changes extra data for newly mined blocks',
+    desc: 'Changes extra data for newly mined blocks.',
     params: [{
       type: Data,
       desc: 'Extra Data',
@@ -1161,7 +1274,7 @@ var ethcore = {
     }],
     returns: {
       type: Boolean,
-      desc: 'whether the call was successful'
+      desc: 'Successfully changed extra data.'
     }
   },
 
@@ -1215,11 +1328,98 @@ var ethcore = {
   },
 
   unsignedTransactionsCount: {
-    desc: 'Returns number of unsigned transactions when running with Trusted Signer. Error otherwise',
+    desc: 'Returns number of unsigned transactions when running with Trusted Signer. Error otherwise.',
     params: [],
     returns: {
       type: Quantity,
-      desc: 'Number of unsigned transactions'
+      desc: 'Number of unsigned transactions.'
+    }
+  },
+
+  generateSecretPhrase: {
+    desc: 'Returns a cryptographically random phrase sufficient for securely seeding a secret key.',
+    params: [],
+    returns: {
+      type: String,
+      desc: 'Secret phrase.'
+    }
+  },
+
+  phraseToAddress: {
+    desc: 'Returns whatever address would be derived from the given phrase if it were to seed a brainwallet.',
+    params: [{
+      type: String,
+      desc: 'Brain-wallet phrase.'
+    }],
+    returns: {
+      type: Address,
+      desc: 'Corresponding address.'
+    }
+  },
+
+  startNetwork: {
+    desc: 'Start the network.',
+    params: [],
+    returns: {
+      type: Boolean,
+      desc: 'Started successfully.'
+    }
+  },
+
+  stopNetwork: {
+    desc: 'Stop the network.',
+    params: [],
+    returns: {
+      type: Boolean,
+      desc: 'Stopped successfully.'
+    }
+  },
+
+  netPeers: {
+    desc: 'Returns peers details.',
+    params: [],
+    returns: {
+      type: Object,
+      desc: 'Information about connected peers.'
+    }
+  },
+
+  gasPriceStatistics: {
+    desc: 'Returns distribution of gas price in latest blocks.',
+    params: [],
+    returns: {
+      type: Array,
+      desc: 'Octile distribution of recent transaction gas prices; first element is the minimum, middle is the median and last is the maximum.'
+    }
+  },
+
+  registryAddress: {
+    desc: 'Returns the value of the registrar for this network.',
+    params: [],
+    returns: {
+      type: Address,
+      desc: 'Address of the registry or null if none.'
+    }
+  },
+
+  listAccounts: {
+    desc: 'Returns all addresses if Fat DB is enabled (`--fat-db`), or null if not.',
+    params: [],
+    returns: {
+      type: Array,
+      desc: 'Array of all addresses.'
+    }
+  },
+
+  listStorageKeys: {
+    desc: 'Returns all storage keys of the given address if Fat DB is enabled (`--fat-db`), or null if not.',
+    params: [{
+      type: Address,
+      desc: 'Address which keys should be returned.'
+    }],
+    returns: {
+      type: Array,
+      desc: 'Array of all keys.'
     }
   }
 };
